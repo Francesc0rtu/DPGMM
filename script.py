@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import cv2
 
 import torch
 import torch.nn.functional as F
@@ -29,7 +30,7 @@ alpha = 0.05
 def mix_weights(beta):
     beta1m_cumprod = (1 - beta).cumprod(-1)
     return F.pad(beta, (0, 1), value=1) * F.pad(beta1m_cumprod, (1, 0), value=1)
-    
+
 def model(data):
     with pyro.plate("beta_plate", T-1):
         beta = pyro.sample("beta", Beta(1, alpha))
@@ -49,15 +50,20 @@ def model(data):
 if __name__ == "__main__":
 
     # create image
-    im = np.zeros((l, l))  # im lxl
-    points = l*np.random.random((3, n**2))
+    # im = np.zeros((l, l))  # im lxl
+    # points = l*np.random.random((3, n**2))
 
-    im[(points[0]).astype(np.int), (points[1]).astype(np.int)] = 1 # random noise
+    # im[(points[0]).astype(np.int), (points[1]).astype(np.int)] = 1 # random noise
 
-    im = ndimage.gaussian_filter(im, sigma=l/(2.*n))
+    # im = ndimage.gaussian_filter(im, sigma=l/(2.*n))
 
-    mask = (im > im.mean()).astype(np.float)
-    img = mask*5 + 0.8*np.random.randn(*mask.shape)
+    # mask = (im > im.mean()).astype(np.float)
+    # img = mask*5 + 0.8*np.random.randn(*mask.shape)
+
+    img = plt.imread('img/Gull_portrait_ca_usa.jpg')[:,:,0]
+
+    data = cv2.resize(img, (150,100))
+    data.shape
 
     # reshape img into data
     data = torch.reshape(torch.tensor(img), (-1,)).float()
