@@ -59,3 +59,10 @@ $$ \Theta_i \sim P $$
 $$ x_i | \theta_i \sim \mathcal{N}(\cdot|\theta_i) $$
 
 Now consider the posterior distribution of $\theta_{1:n}$ given $x_{1:n}$. Because of the clustering propriety, observations are grouped according to theri shared parameters. Unlike finite clustering models, the DP mixture models are not restricted to finite clusters.
+
+# Result
+![input](img/camera_input.png) 
+![output](img/camera_output.png)
+
+![input](img/miramare_input.png)
+![output](img/miramare_output.png)
